@@ -10,9 +10,10 @@ func main() {
 
 	//FUNCTIONS ABOUT DB
 	// db.InsertTable(models.SchemaCustomer, "Customers")
-	// db.InsertTable(models.SchemaVet)
-	// db.Truncate("Customers")
+	// db.InsertTable(models.SchemaVet, "Veterinary")
 	// db.AddForeignKey("veterinary", "fk_Customer", "idCustomer", "customers", "idCustomer")
+	// db.DeleteForeignKey("veterinary", "fk_Customer")
+	// db.Truncate("Customers")
 
 	//FUNCTIONS ABOUT MODELS
 
