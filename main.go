@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"packs/db"
+	"packs/models"
 )
 
 func main() {
@@ -16,6 +18,9 @@ func main() {
 	// db.Truncate("Customers")
 
 	//FUNCTIONS ABOUT MODELS
-
+	// customer := models.CreateCustomer("Roberto", "Calle coloquial", "2461231231", "2461283515")
+	// fmt.Println(customer)
+	listCustomer := models.ListCustomer()
+	fmt.Println(listCustomer)
 	db.Close()
 }
