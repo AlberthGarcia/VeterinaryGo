@@ -21,6 +21,20 @@ func main() {
 	// customer := models.CreateCustomer("Roberto", "Calle coloquial", "2461231231", "2461283515")
 	// fmt.Println(customer)
 	listCustomer := models.ListCustomer()
-	fmt.Println(listCustomer)
+	fmt.Println("Lista de customers a modificar", listCustomer)
+	customer := models.SearchCustomerById(2)
+	// fmt.Println(customer)
+	// customer = models.SearchCustomerById(1)
+	// fmt.Println(customer)
+	fmt.Println("Customer a Modificar", customer)
+
+	customer.Name = "asd"
+	customer.Address = "asd"
+	customer.PhoneNumber = "ads"
+	customer.UpdatedCustomer(2)
+	listCustomer = models.ListCustomer()
+	fmt.Println("Lista de Customers nueva", listCustomer)
+	customer.DeleteCustomerById(1)
+
 	db.Close()
 }

@@ -71,3 +71,38 @@ func ListCustomer() Customers {
 	}
 	return customers
 }
+
+func SearchCustomerById(idCustomer int) Customer {
+	sql := "Select idCustomer, name, address, number1,number2 from Customers where idCustomer=?"
+	rows, err := db.Query(sql, idCustomer)
+	customer := Customer{}
+	if err != nil {
+		panic(err)
+	}
+
+	for rows.Next() {
+		rows.Scan(&customer.IdCustomer, &customer.Name, &customer.Address, &customer.PhoneNumber, &customer.PhoneNumberAux)
+
+	}
+	return customer
+}
+
+func (cu *Customer) DeleteCustomerById(idCustomer int) {
+	sql := "Delete from customers where idCustomer=?"
+	_, err := db.Query(sql, idCustomer)
+	if err != nil {
+		panic(err)
+	}
+	mssg := fmt.Sprintf("Elemento con id %d eliminado", idCustomer)
+	fmt.Println(mssg)
+}
+
+func (cu *Customer) UpdatedCustomer(idCustomer int) Customer {
+	customer := SearchCustomerById(idCustomer)
+	sql := "UPDATE customers SET name=?, address=?, number1=?, number2=?"
+	_, err := db.Exec(sql, cu.Name, cu.Address, cu.PhoneNumber, cu.PhoneNumberAux)
+	if err != nil {
+		panic(err)
+	}
+	return customer
+}
