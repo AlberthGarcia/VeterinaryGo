@@ -79,10 +79,12 @@ func SearchCustomerById(idCustomer int) Customer {
 	if err != nil {
 		panic(err)
 	}
-
 	for rows.Next() {
 		rows.Scan(&customer.IdCustomer, &customer.Name, &customer.Address, &customer.PhoneNumber, &customer.PhoneNumberAux)
+	}
 
+	if customer.IdCustomer == 0 {
+		fmt.Println("Registro inexistente")
 	}
 	return customer
 }

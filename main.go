@@ -23,15 +23,15 @@ func dataBase() {
 	case number == 1:
 		db.Ping()
 	case number == 2:
-		db.InsertTable(models.SchemaVet, "veterinary")
+		db.InsertTable(models.SchemaDog, "dogs")
 	case number == 3:
 		db.Truncate("Customers")
 	case number == 4:
 		db.Delete("veterinary")
 	case number == 5:
-		db.AddForeignKey("veterinary", "fk_Customer", "idCustomer", "customers", "idCustomer")
+		db.AddForeignKey("dogs", "fk_Customer", "idCustomer", "customers", "idCustomer")
 	case number == 6:
-		db.DeleteForeignKey("veterinary", "fk_Customer")
+		db.DeleteForeignKey("dogs", "fk_Customer")
 	case number == 7:
 		db.Close()
 	default:
@@ -59,13 +59,14 @@ func customer() {
 		listCustomer := models.ListCustomer()
 		fmt.Println("List of Customers", listCustomer)
 	case number == 3:
-		customer := models.SearchCustomerById(4)
+		customer := models.SearchCustomerById(1)
 		fmt.Println(customer)
 	case number == 4:
 		customer := models.SerchCustomerByName("Alberth")
 		fmt.Println(customer)
 	case number == 5:
-		// customer.DeleteCustomerById(1)
+		customer := models.SearchCustomerById(1)
+		customer.DeleteCustomerById(1)
 
 	case number == 6:
 		customer := models.SearchCustomerById(2)
@@ -75,6 +76,38 @@ func customer() {
 		customer.PhoneNumber = "12341234"
 		customerUpdated := customer.UpdatedCustomer(2)
 		fmt.Println("Customer updated", customerUpdated)
+
+	default:
+		fmt.Print("Invalid option")
+	}
+
+	db.Close()
+}
+
+func dog() {
+	var number int
+	db.Open()
+	fmt.Println("-----------OPTIONS--------")
+	fmt.Println("Insert Dog----1")
+	fmt.Println("List Dogs----2")
+	fmt.Println("Search Dog ID----3")
+	fmt.Println("Search Dog Name----4")
+	fmt.Println("Delete Dog ID----5")
+	fmt.Println("Update Dog----6")
+	fmt.Scanln(&number)
+	switch {
+	case number == 1:
+		dog := models.CreateDog("Peluchin", "2 years", "French Pool", 1)
+		fmt.Println(dog)
+	case number == 2:
+
+	case number == 3:
+
+	case number == 4:
+
+	case number == 5:
+
+	case number == 6:
 
 	default:
 		fmt.Print("Invalid option")
@@ -96,6 +129,8 @@ func main() {
 		dataBase()
 	case number == 2:
 		customer()
+	case number == 3:
+		dog()
 	default:
 		fmt.Print("Invalid option")
 	}
