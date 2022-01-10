@@ -14,3 +14,12 @@ const SchemaVet string = `CREATE TABLE veterinary(
 	idCustomer int(11) unsigned not null,
 	current_Data TIMESTAMP default current_timestamp
 );`
+
+func buildVeterinary(name, address string, idCustomer int64) *Veterinary {
+	veterinary := &Veterinary{
+		Name:     name,
+		Address:  address,
+		IdClient: idCustomer,
+	}
+	return veterinary
+}

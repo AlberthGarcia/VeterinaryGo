@@ -87,6 +87,19 @@ func SearchCustomerById(idCustomer int) Customer {
 	return customer
 }
 
+func SerchCustomerByName(nameCustomer string) Customer {
+	sql := "Select idCustomer, name, address, number1,number2 from Customers where name=?"
+	row, err := db.Query(sql, nameCustomer)
+	customer := Customer{}
+	if err != nil {
+		panic(err)
+	}
+	for row.Next() {
+		row.Scan(&customer.IdCustomer, &customer.Name, &customer.Address, &customer.PhoneNumber, &customer.PhoneNumberAux)
+	}
+	return customer
+}
+
 func (cu *Customer) DeleteCustomerById(idCustomer int) {
 	sql := "Delete from customers where idCustomer=?"
 	_, err := db.Query(sql, idCustomer)
@@ -99,8 +112,8 @@ func (cu *Customer) DeleteCustomerById(idCustomer int) {
 
 func (cu *Customer) UpdatedCustomer(idCustomer int) Customer {
 	customer := SearchCustomerById(idCustomer)
-	sql := "UPDATE customers SET name=?, address=?, number1=?, number2=?"
-	_, err := db.Exec(sql, cu.Name, cu.Address, cu.PhoneNumber, cu.PhoneNumberAux)
+	sql := "UPDATE customers SET name=?, address=?, number1=?, number2=? where idCustomer=?"
+	_, err := db.Exec(sql, cu.Name, cu.Address, cu.PhoneNumber, cu.PhoneNumberAux, idCustomer)
 	if err != nil {
 		panic(err)
 	}

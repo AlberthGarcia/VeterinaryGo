@@ -40,7 +40,7 @@ func Close() {
 }
 
 //FUNCT TO VERIFY IF A TABLE IN THE DB EXISTS
-func ExistsTable(nameTable string) bool {
+func existsTable(nameTable string) bool {
 	sql := fmt.Sprintf("SHOW TABLES LIKE '%s'", nameTable)
 	result, err := db.Query(sql)
 	if err != nil {
@@ -51,7 +51,7 @@ func ExistsTable(nameTable string) bool {
 
 //FUNC TO INSERT A TABLE IF THIS DOES NOT EXISTS
 func InsertTable(schema, nameTable string) {
-	if !ExistsTable(nameTable) {
+	if !existsTable(nameTable) {
 		result, err := db.Exec(schema)
 		if err != nil {
 			panic(err)
@@ -76,13 +76,24 @@ func AddForeignKey(nameTable, nameConstraint, nameForeignKey, nameTablePrimary, 
 }
 
 //FUNC TO TRUNCATE A TABLE OR DELETE ALL REGISTERS IN THIS
-func Truncate(nameTable string) {
-	sql := fmt.Sprintf("TRUNCATE TABLE %s;", nameTable)
+func Truncate(tableName string) {
+	sql := fmt.Sprintf("TRUNCATE TABLE %s;", tableName)
 	_, err := Exec(sql)
 	if err != nil {
 		panic(err)
 	}
-	sucMsg := fmt.Sprintf("Datos de la tabla %s eliminados", nameTable)
+	sucMsg := fmt.Sprintf("Datos de la tabla %s eliminados", tableName)
+	fmt.Println(sucMsg)
+}
+
+//FUNC TO DELETE A TABLE
+func Delete(tableName string) {
+	sql := fmt.Sprintf("DROP TABLE IF EXISTS %s", tableName)
+	_, err := Exec(sql)
+	if err != nil {
+		panic(err)
+	}
+	sucMsg := fmt.Sprintf("Tabla %s eliminada", tableName)
 	fmt.Println(sucMsg)
 }
 
