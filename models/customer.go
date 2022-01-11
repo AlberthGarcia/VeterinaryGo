@@ -72,34 +72,45 @@ func ListCustomer() Customers {
 	return customers
 }
 
-func SearchCustomerById(idCustomer int) Customer {
+func existsCustomer(customer Customer) bool {
+	return customer.IdCustomer != 0 && customer.Name != ""
+}
+
+func SearchCustomerById(idCustomer int) (Customer, bool) {
 	sql := "Select idCustomer, name, address, number1,number2 from Customers where idCustomer=?"
-	rows, err := db.Query(sql, idCustomer)
+	rows, _ := db.Query(sql, idCustomer)
+
 	customer := Customer{}
-	if err != nil {
-		panic(err)
-	}
+	var existsCus bool
+
 	for rows.Next() {
 		rows.Scan(&customer.IdCustomer, &customer.Name, &customer.Address, &customer.PhoneNumber, &customer.PhoneNumberAux)
 	}
 
-	if customer.IdCustomer == 0 {
-		fmt.Println("Registro inexistente")
+	if existsCustomer(customer) {
+		existsCus = true
 	}
-	return customer
+	return customer, existsCus
+
 }
 
-func SerchCustomerByName(nameCustomer string) Customer {
+func SerchCustomerByName(nameCustomer string) (Customer, bool) {
 	sql := "Select idCustomer, name, address, number1,number2 from Customers where name=?"
 	row, err := db.Query(sql, nameCustomer)
 	customer := Customer{}
+	var existsCus bool
+
 	if err != nil {
 		panic(err)
 	}
 	for row.Next() {
 		row.Scan(&customer.IdCustomer, &customer.Name, &customer.Address, &customer.PhoneNumber, &customer.PhoneNumberAux)
 	}
-	return customer
+
+	if existsCustomer(customer) {
+		existsCus = true
+	}
+	return customer, existsCus
 }
 
 func (cu *Customer) DeleteCustomerById(idCustomer int) {
@@ -113,7 +124,7 @@ func (cu *Customer) DeleteCustomerById(idCustomer int) {
 }
 
 func (cu *Customer) UpdatedCustomer(idCustomer int) Customer {
-	customer := SearchCustomerById(idCustomer)
+	customer, _ := SearchCustomerById(idCustomer)
 	sql := "UPDATE customers SET name=?, address=?, number1=?, number2=? where idCustomer=?"
 	_, err := db.Exec(sql, cu.Name, cu.Address, cu.PhoneNumber, cu.PhoneNumberAux, idCustomer)
 	if err != nil {

@@ -50,33 +50,76 @@ func customer() {
 	fmt.Println("Search Customer Name----4")
 	fmt.Println("Delete Customer ID----5")
 	fmt.Println("Update Customer----6")
+	fmt.Println("Return to the main menu----0")
 	fmt.Scanln(&number)
 	switch {
 	case number == 1:
-		customer := models.CreateCustomer("Roberto", "Calle coloquial", "2461231231", "2461283515")
+		var name, AP, AM, nameCom, address, phone1, phone2 string
+		fmt.Println("Name")
+		fmt.Scan(&name)
+
+		fmt.Println("First Name")
+		fmt.Scan(&AP)
+
+		fmt.Println("last Name")
+		fmt.Scan(&AM)
+
+		nameCom = fmt.Sprintf("%s %s %s", name, AP, AM)
+
+		fmt.Println("address")
+		fmt.Scan(&address)
+
+		fmt.Println("cellphone")
+		fmt.Scan(&phone1)
+
+		fmt.Println("emergency phone (optional)")
+		fmt.Scan(&phone2)
+
+		customer := models.CreateCustomer(nameCom, address, phone1, phone2)
 		fmt.Println(customer)
 	case number == 2:
 		listCustomer := models.ListCustomer()
 		fmt.Println("List of Customers", listCustomer)
 	case number == 3:
-		customer := models.SearchCustomerById(1)
-		fmt.Println(customer)
+		customer, exists := models.SearchCustomerById(1)
+		if exists {
+			fmt.Println(customer)
+		} else {
+			fmt.Println("There is no such ID")
+		}
 	case number == 4:
-		customer := models.SerchCustomerByName("Alberth")
-		fmt.Println(customer)
+		customer, exists := models.SerchCustomerByName("Alberth")
+		if exists {
+			fmt.Println(customer)
+		} else {
+			fmt.Println("There is no such name")
+		}
 	case number == 5:
-		customer := models.SearchCustomerById(1)
-		customer.DeleteCustomerById(1)
+		var id int
+		fmt.Println("Write the ID to delete")
+		fmt.Scan(&id)
+		customer, exists := models.SearchCustomerById(id)
+		if exists {
+			fmt.Println("Elemento a eliminar", customer)
+			customer.DeleteCustomerById(id)
+		} else {
+			fmt.Println("There is no such ID")
+		}
 
 	case number == 6:
-		customer := models.SearchCustomerById(2)
-		fmt.Println("Customer to updated", customer)
-		customer.Name = "pepe"
-		customer.Address = "asdasdfasdf"
-		customer.PhoneNumber = "12341234"
-		customerUpdated := customer.UpdatedCustomer(2)
-		fmt.Println("Customer updated", customerUpdated)
-
+		customer, exists := models.SearchCustomerById(2)
+		if exists {
+			fmt.Println("Customer to updated", customer)
+			customer.Name = "pepe"
+			customer.Address = "asdasdfasdf"
+			customer.PhoneNumber = "12341234"
+			customerUpdated := customer.UpdatedCustomer(2)
+			fmt.Println("Customer updated", customerUpdated)
+		} else {
+			fmt.Println("There is no such Name")
+		}
+	case number == 0:
+		main()
 	default:
 		fmt.Print("Invalid option")
 	}
