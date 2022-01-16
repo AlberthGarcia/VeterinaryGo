@@ -36,7 +36,6 @@ func Close() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("connection close")
 }
 
 //FUNCT TO VERIFY IF A TABLE IN THE DB EXISTS

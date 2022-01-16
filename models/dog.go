@@ -41,7 +41,7 @@ func (dog *Dog) insertDog() {
 	if err != nil {
 		fmt.Println("There's no such ID Customer")
 	}
-	dog.IdCustomer, _ = result.LastInsertId()
+	dog.IdDog, _ = result.LastInsertId()
 	fmt.Println("Dog Save")
 }
 
@@ -78,9 +78,9 @@ func (dog *Dog) DeleteDogByID(idDog int) {
 	sql := "Delete from dogs where idDog=?"
 	_, err := db.Query(sql, idDog)
 	if err != nil {
-		fmt.Println("Id inexistente")
+		fmt.Println("There's no such ID")
 	}
-	fmt.Println("Registro eliminado")
+	fmt.Println("Delete successful")
 
 }
 

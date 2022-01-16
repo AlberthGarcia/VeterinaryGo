@@ -120,12 +120,12 @@ func (cu *Customer) DeleteCustomerById(idCustomer int) {
 	fmt.Println(mssg)
 }
 
-func (cu *Customer) UpdatedCustomer(idCustomer int) Customer {
-	customer, _ := SearchCustomerById(idCustomer)
+func (cu *Customer) UpdatedCustomer(idCustomer int) *Customer {
+	SearchCustomerById(idCustomer)
 	sql := "UPDATE customers SET name=?, address=?, number1=?, number2=? where idCustomer=?"
 	_, err := db.Exec(sql, cu.Name, cu.Address, cu.PhoneNumber, cu.PhoneNumberAux, idCustomer)
 	if err != nil {
 		panic(err)
 	}
-	return customer
+	return cu
 }

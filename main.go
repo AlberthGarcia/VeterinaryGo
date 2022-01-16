@@ -81,7 +81,10 @@ func customer() {
 		listCustomer := models.ListCustomer()
 		fmt.Println("List of Customers", listCustomer)
 	case number == 3:
-		customer, exists := models.SearchCustomerById(1)
+		var id int
+		fmt.Println("Write the ID to delete")
+		fmt.Scan(&id)
+		customer, exists := models.SearchCustomerById(id)
 		if exists {
 			fmt.Println(customer)
 		} else {
@@ -100,20 +103,46 @@ func customer() {
 		fmt.Scan(&id)
 		customer, exists := models.SearchCustomerById(id)
 		if exists {
-			fmt.Println("Elemento a eliminar", customer)
+			fmt.Println("Data to delete", customer)
 			customer.DeleteCustomerById(id)
 		} else {
 			fmt.Println("There is no such ID")
 		}
 
 	case number == 6:
-		customer, exists := models.SearchCustomerById(10)
+		var id int
+		fmt.Println("Write the ID to updated")
+		fmt.Scan(&id)
+		customer, exists := models.SearchCustomerById(id)
+		fmt.Println("Customer to updated", customer)
+
 		if exists {
-			fmt.Println("Customer to updated", customer)
-			customer.Name = "pepe"
-			customer.Address = "asdasdfasdf"
-			customer.PhoneNumber = "12341234"
-			customerUpdated := customer.UpdatedCustomer(10)
+			var fname, AP, AM, name, address, phone1, phone2 string
+			fmt.Println("Name")
+			fmt.Scan(&fname)
+
+			fmt.Println("First Name")
+			fmt.Scan(&AP)
+
+			fmt.Println("last Name")
+			fmt.Scan(&AM)
+
+			name = fmt.Sprintf("%s %s %s", fname, AP, AM)
+			customer.Name = name
+
+			fmt.Println("Customer address")
+			fmt.Scan(&address)
+			customer.Address = address
+
+			fmt.Println("Customer number")
+			fmt.Scan(&phone1)
+			customer.PhoneNumber = phone1
+
+			fmt.Println("Customer number2 (optional)")
+			fmt.Scan(&phone2)
+			customer.PhoneNumberAux = phone2
+
+			customerUpdated := customer.UpdatedCustomer(id)
 			fmt.Println("Customer updated", customerUpdated)
 		} else {
 			fmt.Println("There is no such Name")
@@ -137,45 +166,75 @@ func dog() {
 	fmt.Println("Search Dog ID----4")
 	fmt.Println("Search Dog name----5")
 	fmt.Println("Update Dog----6")
+	fmt.Println("Return to the main menu----0")
 	fmt.Scanln(&number)
 	switch {
 	case number == 1:
-		dog := models.CreateDog("Bebe", "7 years", "Boxer", 5)
+		var name, age, breed string
+		var idCustomer int64
+		fmt.Println("Name")
+		fmt.Scan(&name)
+
+		fmt.Println("Age")
+		fmt.Scan(&age)
+
+		fmt.Println("Breed")
+		fmt.Scan(&breed)
+
+		fmt.Println("Id Owner")
+		fmt.Scan(&idCustomer)
+
+		dog := models.CreateDog(name, age, breed, idCustomer)
 		fmt.Println(dog)
+
 	case number == 2:
 		dogs := models.ListDogs()
 		fmt.Println(dogs)
 	case number == 3:
-
+		var id int
+		fmt.Println("ID to delete")
+		fmt.Scan(&id)
+		dog, exists := models.SearchDogById(id)
+		if exists {
+			dog.DeleteDogByID(id)
+		} else {
+			fmt.Println("There is no such ID")
+		}
 	case number == 4:
-		dog, existDog := models.SearchDogById(7)
+		var id int
+		fmt.Println("Id Dog")
+		fmt.Scan(&id)
+		dog, existDog := models.SearchDogById(id)
 		if existDog {
 			fmt.Println(dog)
 		} else {
 			fmt.Println("There is no such ID")
 		}
 	case number == 5:
-		dog := models.SerchDogByName("bebe")
+		var nameDog string
+		fmt.Println("name Dog")
+		fmt.Scan(&nameDog)
+		dog := models.SerchDogByName(nameDog)
 		fmt.Println(dog)
 	case number == 6:
 		var idDog int
-		var nombre, age, breed string
-		fmt.Println("Escriba el idDog a buscar")
+		var name, age, breed string
+		fmt.Println("Id of the Dog")
 		fmt.Scanln(&idDog)
 
 		dog, existDog := models.SearchDogById(idDog)
 		if existDog {
 			fmt.Println(dog)
 
-			fmt.Println("Escriba el nuevo nombre")
-			fmt.Scanln(&nombre)
-			dog.Name = nombre
+			fmt.Println("Name")
+			fmt.Scanln(&name)
+			dog.Name = name
 
-			fmt.Println("Escriba la nueva edad")
+			fmt.Println("Age")
 			fmt.Scanln(&age)
 			dog.Age = age
 
-			fmt.Println("Escriba la nueva raza")
+			fmt.Println("Breed")
 			fmt.Scanln(&breed)
 			dog.Breed = breed
 
@@ -184,11 +243,14 @@ func dog() {
 		} else {
 			fmt.Println("There is no such Id")
 		}
+	case number == 0:
+		main()
 	default:
 		fmt.Print("Invalid option")
 	}
 
 	db.Close()
+
 }
 
 func main() {
