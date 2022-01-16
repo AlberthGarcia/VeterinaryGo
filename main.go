@@ -107,13 +107,13 @@ func customer() {
 		}
 
 	case number == 6:
-		customer, exists := models.SearchCustomerById(2)
+		customer, exists := models.SearchCustomerById(10)
 		if exists {
 			fmt.Println("Customer to updated", customer)
 			customer.Name = "pepe"
 			customer.Address = "asdasdfasdf"
 			customer.PhoneNumber = "12341234"
-			customerUpdated := customer.UpdatedCustomer(2)
+			customerUpdated := customer.UpdatedCustomer(10)
 			fmt.Println("Customer updated", customerUpdated)
 		} else {
 			fmt.Println("There is no such Name")
@@ -133,25 +133,57 @@ func dog() {
 	fmt.Println("-----------OPTIONS--------")
 	fmt.Println("Insert Dog----1")
 	fmt.Println("List Dogs----2")
-	fmt.Println("Search Dog ID----3")
-	fmt.Println("Search Dog Name----4")
-	fmt.Println("Delete Dog ID----5")
+	fmt.Println("Delete Dog----3")
+	fmt.Println("Search Dog ID----4")
+	fmt.Println("Search Dog name----5")
 	fmt.Println("Update Dog----6")
 	fmt.Scanln(&number)
 	switch {
 	case number == 1:
-		dog := models.CreateDog("Peluchin", "2 years", "French Pool", 1)
+		dog := models.CreateDog("Bebe", "7 years", "Boxer", 5)
 		fmt.Println(dog)
 	case number == 2:
-
+		dogs := models.ListDogs()
+		fmt.Println(dogs)
 	case number == 3:
 
 	case number == 4:
-
+		dog, existDog := models.SearchDogById(7)
+		if existDog {
+			fmt.Println(dog)
+		} else {
+			fmt.Println("There is no such ID")
+		}
 	case number == 5:
-
+		dog := models.SerchDogByName("bebe")
+		fmt.Println(dog)
 	case number == 6:
+		var idDog int
+		var nombre, age, breed string
+		fmt.Println("Escriba el idDog a buscar")
+		fmt.Scanln(&idDog)
 
+		dog, existDog := models.SearchDogById(idDog)
+		if existDog {
+			fmt.Println(dog)
+
+			fmt.Println("Escriba el nuevo nombre")
+			fmt.Scanln(&nombre)
+			dog.Name = nombre
+
+			fmt.Println("Escriba la nueva edad")
+			fmt.Scanln(&age)
+			dog.Age = age
+
+			fmt.Println("Escriba la nueva raza")
+			fmt.Scanln(&breed)
+			dog.Breed = breed
+
+			dog := dog.UpdatedDog(idDog)
+			fmt.Println("Updated dog", dog)
+		} else {
+			fmt.Println("There is no such Id")
+		}
 	default:
 		fmt.Print("Invalid option")
 	}
@@ -162,9 +194,9 @@ func dog() {
 func main() {
 	var number int
 	fmt.Println("-----------OPTIONS--------")
-	fmt.Println("Functions about database----1")
-	fmt.Println("Functions about customers----2")
-	fmt.Println("Functions about Veterinary----3")
+	fmt.Println("Functions about Database----1")
+	fmt.Println("Functions about Customers----2")
+	fmt.Println("Functions about Dogs----3")
 	fmt.Scanln(&number)
 
 	switch {

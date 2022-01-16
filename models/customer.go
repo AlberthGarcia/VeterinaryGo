@@ -81,15 +81,12 @@ func SearchCustomerById(idCustomer int) (Customer, bool) {
 	rows, _ := db.Query(sql, idCustomer)
 
 	customer := Customer{}
-	var existsCus bool
 
 	for rows.Next() {
 		rows.Scan(&customer.IdCustomer, &customer.Name, &customer.Address, &customer.PhoneNumber, &customer.PhoneNumberAux)
 	}
 
-	if existsCustomer(customer) {
-		existsCus = true
-	}
+	existsCus := existsCustomer(customer)
 	return customer, existsCus
 
 }
